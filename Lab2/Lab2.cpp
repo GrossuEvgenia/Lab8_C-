@@ -1,6 +1,6 @@
 ﻿// Lab2.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
-//Разработка программного модуля, описывающего работу зоомагазина с использованием структур языка C.
+//Разработка программного модуля, описывающего работу зоомагазина с использованием классов языка C++.
 #include <iostream>
 #include <cstdlib>
 #include <stdio.h>
@@ -8,6 +8,7 @@
 #include<string.h>
 
 #define LEN 100
+#define price_food 10
 #define standart "no_name"
 using namespace std;
 
@@ -20,7 +21,7 @@ public:
         col = 0;
         income = 0;
         damages = 0;
-        price_feed = 10;
+        price_feed = price_food;
     }
     zooshop(int col, double income, double damages, double price_feed)
     {
@@ -58,7 +59,10 @@ public:
 
         return price_feed;
     }
-
+    void set_price_food(double price_feed)
+    {
+        this->price_feed = price_feed;
+    }
     void read()
     {
         cout << "The numbers of pets : " << col << endl;
@@ -93,9 +97,9 @@ public:
     }
 
 
-    /*  void setname(string name)
+      void setname(char name[LEN])
       {
-          this->name = name;
+          strcpy_s(this->name,name);
       }
       void setage(int age)
       {
@@ -108,7 +112,7 @@ public:
       void setprice(double price)
       {
           this->price = price;
-      }*/
+      }
     string getname()
     {
         cout << "Pet's name: " << name << endl;
@@ -182,112 +186,148 @@ private:
 
 
 
-zooshop init_shop(int c, double i, double d, int ag, int wh, int p)
-{
-    zooshop check;
-    check.col = c;
-    check.income = i;
-    check.damages = d;
-    check.price_feed = 10;
-    strcpy_s(check.pet.name,standart);
-    check.pet.age = ag;
-    check.pet.wheit = wh;
-    check.pet.price = p;
-    return check;
-}
-zooshop input()
-{
-    zooshop pety;
-    pety = init_shop(0,0,0,0,0,0);
-    printf("Enter pet name: \n");
-    rewind(stdin); gets_s(pety.pet.name, LEN);
-    printf("Enter pet age : \n");
-    scanf_s("%d", &pety.pet.age);
-    printf("Enter pet weit: \n");
-    scanf_s("%d", &pety.pet.wheit);
-    printf("Enter pet price: \n");
-    scanf_s("%lf", &pety.pet.price);
-    pety.col++;
-    return pety;
-}
-void output_shop(zooshop check)
-{
-    printf("The numbers of pets : %d\n", check.col);
-    printf("Store profit is %lf\n", check.income);
-    printf("Store damages is %lf\n", check.damages);
-    printf("Food price is %lf\n", check.price_feed);
-    printf("Pet's name %s\n", check.pet.name);
-    printf("Pet's age %d\n", check.pet.age);
-    printf("Pet's wheit %d\n", check.pet.wheit);
-    printf("pet's price %lf\n", check.pet.price);
-}
-
-void add_price(zooshop pet1, zooshop pet2)
-{
-    double sum;
-    sum = pet1.pet.price + pet2.pet.price;
-    printf("Total price of pets: %lf", sum);
-}
-zooshop feeding( zooshop check)
-{
-    check.pet.wheit += 1;
-    check.damages = check.damages + check.price_feed * check.col;
-    printf("Pet is fed\n");
-    return check;
-}
-zooshop sale(zooshop check)
-{
-    check.col -= 1;
-    check.income += check.pet.price;
-    check.damages -= check.price_feed * check.col;
-    strcpy_s(check.pet.name,standart);
-    check.pet.age = 0;
-    check.pet.wheit = 0;
-    check.pet.price = 0;
-    printf("Pet sold\n");
-    return check;
-}
-
 int main()
 {
-    zooshop check;
-    int col = 0;
-    check=init_shop(col,0,0,0,0,0);
-    printf("Initialization: \n");
-    output_shop(check);
-    check = input();
-    printf("\nAfter entering: \n");
-    output_shop(check);
-    check=feeding( check); 
-    printf("\nAfter feeding: \n");
-    output_shop(check);
-    check=sale(check);
-    printf("\nAfter sale: \n");
-    output_shop(check);
-    zooshop pet1;
-    pet1 = input(); 
-    add_price(check, pet1);
-    zooshop* c;
-    printf("\nWorking with dinamic variables\n");
-    c = (zooshop*)malloc(LEN * sizeof(zooshop));
-    c = &(init_shop(col,0,0,0,0,0));
-    printf("\nInitialization: \n");
-    output_shop(*c);
-    c = &(input());
-    printf("\n After edding: \n");
-    output_shop(*c);
-   c=&( feeding(*c));
-    printf("\nAfter feeding:\n");
-    output_shop(*c);
-    c=&(sale(*c));
-    printf("\nAfter sale:\n");
-    output_shop(*c);
-    zooshop* c1;
-    c1 = (zooshop*)malloc(LEN * sizeof(zooshop));
-    c1 = &(input());
-    add_price(*c, *c1);
-    printf("\nDynanmic variable addresses:\n");
-    printf("%p", c);
+    double sum = 0;
+    char st[LEN] = "no_name";
+    pets pet(0, 0, 0, 10, st, 0, 0, 0);
+    cout << "Working with static  class object:" << endl;
+    cout << "After initialization" << endl;
+    pet.output();
+    pet.input();
+    cout << "After input value:" << endl;
+    pet.output();
+    cout << "After feeding:" << endl;
+    pet.feeding();
+    pet.output();
+    cout << "After sale:" << endl;
+    pet.sale();
+    pet.output();
+    sum = pet.add_price(sum);
+    pets* pet1 = new pets(0, 0, 0, 10, st, 0, 0, 0);
+    cout << "\n" << "Working with dinamic class object:" << endl;
+    cout << "After initialization" << endl;
+    pet1->output();
+    pet1->input();
+    cout << "After input value:" << endl;
+    pet1->output();
+    cout << "After feeding:" << endl;
+    pet1->feeding();
+    pet1->output();
+    cout << "After sale:" << endl;
+    pet1->sale();
+    pet1->output();
+    sum = pet1->add_price(sum);
+    delete pet1;
+    cout << "\n" << "Working with array" << endl;
+    pets** pety = new pets * [LEN];
+    int size = 0;
+    cout << "Enter numbers of pets" << endl;
+    cin >> size;
+
+    for (int i = 0; i < size; i++)
+    {
+        pety[i] = new pets(i, 0, 0, 10, st, 0, 0, 0);
+
+        pety[i]->input();
+    }
+    for (int i = 0; i < size; i++)
+    {
+        pety[i]->set_col(size);
+    }
+    for (int j = 0; j < size; j++)
+    {
+        pety[j]->output();
+        cout << "\n";
+    }
+
+    for (int j = 0; j < size; j++)
+    {
+        sum = pety[j]->add_price(sum);
+    }
+    cout << "After feeding" << endl;
+    for (int j = 0; j < size; j++)
+    {
+        pety[j]->feeding();
+        if (j + 1 != size)
+        {
+            pety[j + 1]->set_damages(pety[j]->get_damages());
+        }
+        pety[j]->getname();
+        pety[j]->get_wheit();
+        cout << endl;
+    }
+    for (int j = 0; j < size; j++)
+    {
+        pety[j]->set_damages(pety[size - 1]->get_damages());
+    }
+    pety[size - 1]->read();
+    cout << "After sale" << endl;
+    for (int j = 0; j < size; j++)
+    {
+        pety[j]->sale();
+        if (j + 1 != size)
+        {
+            pety[j + 1]->set_damages(pety[j]->get_damages());
+            pety[j + 1]->set_income(pety[j]->get_income());
+            pety[j + 1]->set_col(pety[j]->get_col());
+        }
+    }
+    pety[size - 1]->read();
+    delete[] pety;
+    cout << "Working with static array" << endl;
+    cout << "Enter numbers of pets" << endl;
+    cin >> size;
+    pets* pety2 = (pets*)calloc(size, sizeof(pets));
+
+    for (int i = 0; i < size; i++)
+    {
+        pety2[i].input();
+        pety2[i].set_price_food(price_food);
+    }
+    for (int i = 0; i < size; i++)
+    {
+        pety2[i].set_col(size);
+    }
+    for (int j = 0; j < size; j++)
+    {
+        pety2[j].output();
+        cout << "\n";
+    }
+
+    for (int j = 0; j < size; j++)
+    {
+        sum = pety2[j].add_price(sum);
+    }
+    cout << "After feeding" << endl;
+    for (int j = 0; j < size; j++)
+    {
+        pety2[j].feeding();
+        if (j + 1 != size)
+        {
+            pety2[j + 1].set_damages(pety2[j].get_damages());
+        }
+        pety2[j].getname();
+        pety2[j].get_wheit();
+        cout << endl;
+    }
+    for (int j = 0; j < size; j++)
+    {
+        pety2[j].set_damages(pety2[size - 1].get_damages());
+    }
+    pety2[size - 1].read();
+    cout << "After sale" << endl;
+    for (int j = 0; j < size; j++)
+    {
+        pety2[j].sale();
+        if (j + 1 != size)
+        {
+            pety2[j + 1].set_damages(pety2[j].get_damages());
+            pety2[j + 1].set_income(pety2[j].get_income());
+            pety2[j + 1].set_col(pety2[j].get_col());
+        }
+    }
+    pety2[size - 1].read();
+    free(pety2);
     return 0;
 }
-
