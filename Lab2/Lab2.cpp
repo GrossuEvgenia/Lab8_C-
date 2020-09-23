@@ -75,14 +75,111 @@ private:
     double price_feed;
 
 };
-typedef struct 
+class pets : public zooshop
 {
-    int col;
-    double income;
-    double damages;
-    double price_feed;
-    pets pet;
-}zooshop;
+public:
+    pets() {
+        strcpy_s(name, standart);
+        age = 0;
+        wheit = 0;
+        price = 0;
+    }
+    pets(int col, double income, double damages, double price_feed, char name[LEN], int age, int wheit, double price) :zooshop(col, income, damages, price_feed)
+    {
+        strcpy_s(this->name, name);
+        this->age = age;
+        this->wheit = wheit;
+        this->price = price;
+    }
+
+
+    /*  void setname(string name)
+      {
+          this->name = name;
+      }
+      void setage(int age)
+      {
+          this->age = age;
+      }
+      void setweith(int wheit)
+      {
+          this->wheit = wheit;
+      }
+      void setprice(double price)
+      {
+          this->price = price;
+      }*/
+    string getname()
+    {
+        cout << "Pet's name: " << name << endl;
+        return name;
+    }
+    int getage()
+    {
+        cout << "pet's age: " << age << endl;
+        return age;
+    }
+    int get_wheit()
+    {
+        cout << "Pet's wheit: " << wheit << endl;
+        return wheit;
+    }
+    void input()
+    {
+        cout << "Enter pet name: \n";
+        rewind(stdin); gets_s(name, LEN);
+        cout << "Enter pet age : \n";
+        cin >> age;
+        cout << "Enter pet weit: \n";
+        cin >> wheit;
+        cout << "Enter pet price: \n";
+        cin >> price;
+        col++;
+    }
+    void output()
+    {
+        cout << "The numbers of pets : " << col << endl;
+        cout << "Store profit is " << income << endl;
+        cout << "Store damages is " << damages << endl;
+        cout << "Food price is " << price_feed << endl;
+        cout << "Pet's name " << name << endl;
+        cout << "Pet's age " << age << endl;
+        cout << "Pet's wheit " << wheit << endl;
+        cout << "Pet's price " << price << endl;
+    }
+    void feeding()
+    {
+        wheit += 1;
+        damages = damages + price_feed;
+        cout << "Pet is fed\n";
+    }
+    void sale()
+    {
+
+        income += price;
+        damages = damages - price_feed;
+        col -= 1;
+        strcpy_s(name, standart);
+        age = 0;
+        wheit = 0;
+        price = 0;
+        cout << "Pet sold\n";
+
+    }
+    double add_price(double sum)
+    {
+
+        sum += price;
+        cout << "Total price of pets: " << sum << endl;
+        return sum;
+    }
+private:
+    char name[LEN];
+    int age;
+    int wheit;
+    double price;
+};
+
 
 
 zooshop init_shop(int c, double i, double d, int ag, int wh, int p)
