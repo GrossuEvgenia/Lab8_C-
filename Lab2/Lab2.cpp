@@ -1,17 +1,80 @@
 ﻿// Lab2.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
 //Разработка программного модуля, описывающего работу зоомагазина с использованием структур языка C.
+#include <iostream>
+#include <cstdlib>
 #include <stdio.h>
 #include<malloc.h>
 #include<string.h>
+
 #define LEN 100
 #define standart "no_name"
-typedef struct {
-    char name[LEN];
-    int age;
-    int wheit;
-    double price;
-}pets;
+using namespace std;
+
+class pets;
+class zooshop
+{
+public:
+    zooshop()
+    {
+        col = 0;
+        income = 0;
+        damages = 0;
+        price_feed = 10;
+    }
+    zooshop(int col, double income, double damages, double price_feed)
+    {
+        this->col = col;
+        this->income = income;
+        this->damages = damages;
+        this->price_feed = price_feed;
+
+    }
+    int get_col()
+    {
+        return col;
+    }
+    void set_col(int col)
+    {
+        this->col = col;
+    }
+    double get_income() {
+
+        return income;
+    }
+    void set_income(double income)
+    {
+        this->income = income;
+    }
+    double get_damages() {
+
+        return damages;
+    }
+    void set_damages(double damages)
+    {
+        this->damages = damages;
+    }
+    double get_price_feed() {
+
+        return price_feed;
+    }
+
+    void read()
+    {
+        cout << "The numbers of pets : " << col << endl;
+        cout << "Store profit is " << income << endl;
+        cout << "Store damages is " << damages << endl;
+        cout << "Food price id " << price_feed << endl;
+    }
+    friend pets;
+
+private:
+    int col;
+    double income;
+    double damages;
+    double price_feed;
+
+};
 typedef struct 
 {
     int col;
@@ -128,5 +191,6 @@ int main()
     add_price(*c, *c1);
     printf("\nDynanmic variable addresses:\n");
     printf("%p", c);
+    return 0;
 }
 
