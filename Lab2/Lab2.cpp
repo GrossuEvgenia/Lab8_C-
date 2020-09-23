@@ -1,6 +1,6 @@
 ﻿// Lab2.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
-
+//Разработка программного модуля, описывающего работу зоомагазина с использованием структур языка C.
 #include <stdio.h>
 #include<malloc.h>
 #include<string.h>
@@ -22,23 +22,23 @@ typedef struct
 }zooshop;
 
 
-zooshop init_shop( )
+zooshop init_shop(int c, double i, double d, int ag, int wh, int p)
 {
     zooshop check;
-    check.col = 0;
-    check.income = 0;
-    check.damages = 0;
+    check.col = c;
+    check.income = i;
+    check.damages = d;
     check.price_feed = 10;
     strcpy_s(check.pet.name,standart);
-    check.pet.age = 0;
-    check.pet.wheit = 0;
-    check.pet.price = 0;
+    check.pet.age = ag;
+    check.pet.wheit = wh;
+    check.pet.price = p;
     return check;
 }
 zooshop input()
 {
     zooshop pety;
-    pety = init_shop();
+    pety = init_shop(0,0,0,0,0,0);
     printf("Enter pet name: \n");
     rewind(stdin); gets_s(pety.pet.name, LEN);
     printf("Enter pet age : \n");
@@ -91,7 +91,8 @@ zooshop sale(zooshop check)
 int main()
 {
     zooshop check;
-    check=init_shop();
+    int col = 0;
+    check=init_shop(col,0,0,0,0,0);
     printf("Initialization: \n");
     output_shop(check);
     check = input();
@@ -109,7 +110,7 @@ int main()
     zooshop* c;
     printf("\nWorking with dinamic variables\n");
     c = (zooshop*)malloc(LEN * sizeof(zooshop));
-    c = &(init_shop());
+    c = &(init_shop(col,0,0,0,0,0));
     printf("\nInitialization: \n");
     output_shop(*c);
     c = &(input());
