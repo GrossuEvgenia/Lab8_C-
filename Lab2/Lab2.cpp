@@ -112,26 +112,22 @@ public:
         col = 0;
         income = 0;
         damages = 0;
-        price_feed = 10;
-        
     }
-    zooshop(int col, double income, double damages, double price_feed, pets pet[LEN])
+    zooshop(int col, double income, double damages, pets pet[LEN])
     {
         this->col = col;
         this->income = income;
         this->damages = damages;
-        this->price_feed = price_feed;
         for (int i = 0; i < col; i++)
         {
             this->pet[i] = pet[i];
         }
     }
-    zooshop(int col, double income, double damages, double price_feed, pets pet)
+    zooshop(int col, double income, double damages,  pets pet)
     {
         this->col = col;
         this->income = income;
         this->damages = damages;
-        this->price_feed = price_feed;
         for (int i = 0; i < col; i++)
         {
             this->pet[i] = pet;
@@ -161,10 +157,15 @@ public:
     {
         this->damages = damages;
     }
-    double get_price_feed() {
+  static  double get_price_feed() {
 
         return price_feed;
     }
+  static void set_price_feed(double pricess)
+  {
+      price_feed = pricess;
+
+  }
 
     void read()
     {
@@ -254,14 +255,29 @@ public:
         }
 
     }
+     //change fo 8 labaratory
+     static void compare(zooshop s1, zooshop s2)
+     {
+         if (s1.get_col() > s2.get_col())
+         {
+
+             cout << "more animals in the first store" << endl;
+         }
+         else if (s1.get_col() == s2.get_col())
+         {
+             cout << "stores is equal" << endl;
+         }
+         else 
+         { cout << "more animals in the second store" << endl; }
+     }
 private:
     int col;
     double income;
     double damages;
-    double price_feed;
+    static double price_feed;//for 8 lab
     pets pet[LEN];
 };
-
+double zooshop::price_feed = prices;
 void check(zooshop sale)
 {
     for (int i = 0; i <= sale.col; i++)
@@ -292,7 +308,7 @@ int main()
     pets pet(st, 0, 0, 0);
     pet.input();
     sum = pet.add_price(sum);
-    zooshop store(1, 0, 0, prices, pet);
+    zooshop store(1, 0, 0, pet);
     store.output();
     store.feeding();
     store.output();
@@ -302,7 +318,7 @@ int main()
     store.this_profit(&profit);
 
     check(store);
-    zooshop store10(1, 0, 0, prices, pet);
+    zooshop store10(1, 0, 0,  pet);
     store10 = store + store10;
     store10.output();
     store10 = store++;
@@ -310,21 +326,6 @@ int main()
     store10 = ++store;
     store10.output();
 
-
-
-
-    cout << "\nWorking with dinamic object" << endl;
-    pets* pet1 = new pets(st, 0, 0, 0);
-    pet1->input();
-    sum = pet1->add_price(sum);
-    zooshop* store1 = new zooshop(1, 0, 0, prices, pet1);
-    store1->output();
-    store1->feeding();
-    store1->output();
-    store1->sale();
-    store1->output();
-    delete pet1;
-    delete store1;
     pets pet2[LEN];
     cout << "\nWorking with an array of static object" << endl;
     cout << "Enter nunber of pets in shoop" << endl;
@@ -334,9 +335,18 @@ int main()
         pet2[i].input();
         sum = pet2[i].add_price(sum);
     }
-    zooshop* store2 = new zooshop(col, 0, 0, prices, pet2);
+
+    zooshop* store2 = new zooshop(col, 0, 0, pet2);
     store2->output();
     store2->feeding();
+    //for 8 lab
+    pets pet8(st, 0, 0, 0);
+    
+    col = 1;
+    zooshop store8(col, 0, 0, pet8);
+    zooshop::compare(*store2, store8);
+    zooshop::set_price_feed(15);
+    cout << "New price feed "<< zooshop::get_price_feed()<< endl;
     string names;
     cout << "Enter pet's name" << endl;
     cin >> names;
@@ -344,24 +354,6 @@ int main()
     store2->output();
     store2->sale();
     store2->output();
-    
-    cout << "\nWorking with an array of dynamic objects" << endl;
-    cout << "Enter nunber of pets in shoop" << endl;
-    cin >> col;
-    pets** pet3 = new pets * [LEN];
-    for (int i = 0; i < col; i++)
-    {
-        pet3[i] = new pets(st, 0, 0, 0);
-        pet3[i]->input();
-        sum = pet3[i]->add_price(sum);
-    }
-    zooshop store3(col, 0, 0, prices, **pet3);
-    store3.output();
-    store3.feeding();
-    store3.output();
-    store3.sale();
-    store3.output();
     delete store2;
-    delete[] pet3;
     return 0;
 }
