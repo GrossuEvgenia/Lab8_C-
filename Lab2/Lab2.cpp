@@ -11,28 +11,28 @@
 #define standart "no_name"
 using namespace std;
 #define prices 10
-
+#define pr 0.2
 class pets
 {
 public:
     pets() {
-        strcpy_s(name, standart);
+        name=standart;
         age = 0;
         wheit = 0;
         price = 0;
     }
-    pets(char name[LEN], int age, int wheit, double price)
+    pets(string name, int age, int wheit, double price)
     {
-        strcpy_s(this->name, name);
+        this->name=name;
         this->age = age;
         this->wheit = wheit;
         this->price = price;
     }
 
 
-    void setname(char name[LEN])
+    void setname(string name)
     {
-        strcpy_s(this->name, name);
+        this->name=name;
     }
     void setage(int age)
     {
@@ -68,7 +68,7 @@ public:
     void input()
     {
         cout << "Enter pet name: \n";
-        rewind(stdin); gets_s(name, LEN);
+        cin >> name;
         cout << "Enter pet age : \n";
         cin >> age;
         cout << "Enter pet weit: \n";
@@ -98,7 +98,7 @@ public:
         return sum;
     }
 private:
-    char name[LEN];
+    string name;
     int age;
     int wheit;
     double price;
@@ -113,6 +113,7 @@ public:
         income = 0;
         damages = 0;
         price_feed = 10;
+        
     }
     zooshop(int col, double income, double damages, double price_feed, pets pet[LEN])
     {
@@ -204,14 +205,55 @@ public:
         for (int i = 0; i <= col; i++)
         {
             income += pet[i].get_price();
-            damages = damages - price_feed;
             col -= 1;
             cout << "Pet sold\n" << endl;
         }
 
     }
 
+    void tax(double &taxa)
+    {
+        taxa = income * pr;
+        cout << "Store tax is" << taxa << endl;
+        return;
+    }
+    void this_profit(double *profit)
+    {
+        *profit = income - damages;
+        cout << "Store profit this month" << *profit << endl;
+        return;
+    }
+    friend void check(zooshop sale);
+    
+    friend zooshop operator+(zooshop s,zooshop s1);
+    zooshop& operator++()
+    {
+        this->price_feed++;
+        return *this;
+    }
+    zooshop operator++(int)
+    {
+        zooshop s = *this;
+        ++*this;
+        return s;
 
+    }
+     void found_pet(string names)
+    {
+        int res = 0; 
+        for (int i = 0; i < col; i++)
+        {
+            if (names == pet[i].getname())
+            {
+                cout << "Pet found" << endl;
+            }
+        }
+        if (res == 1)
+        {
+            cout << "Pet didn't found" << endl;
+        }
+
+    }
 private:
     int col;
     double income;
@@ -220,14 +262,32 @@ private:
     pets pet[LEN];
 };
 
+void check(zooshop sale)
+{
+    for (int i = 0; i <= sale.col; i++)
+    {
+        if (sale.pet->get_wheit() < 1)
+        {
+            sale.col--;
+            
+        }
+    }
+    cout << "Checked ended" << endl;
+}
+zooshop operator+(zooshop s, zooshop s1)
+{
+  s1.set_col( s.col + s1.col);
+  return s1;
+}
 
 int main()
 {
 
     int col;
     double sum = 0;
-
-    char st[LEN] = "no_name";
+    double taxa = 0;
+    double profit = 0;
+    string st = "no_name";
     cout << "Working with static object" << endl;
     pets pet(st, 0, 0, 0);
     pet.input();
@@ -238,6 +298,21 @@ int main()
     store.output();
     store.sale();
     store.output();
+    store.tax(taxa);
+    store.this_profit(&profit);
+
+    check(store);
+    zooshop store10(1, 0, 0, prices, pet);
+    store10 = store + store10;
+    store10.output();
+    store10 = store++;
+    store10.output();
+    store10 = ++store;
+    store10.output();
+
+
+
+
     cout << "\nWorking with dinamic object" << endl;
     pets* pet1 = new pets(st, 0, 0, 0);
     pet1->input();
@@ -262,11 +337,14 @@ int main()
     zooshop* store2 = new zooshop(col, 0, 0, prices, pet2);
     store2->output();
     store2->feeding();
+    string names;
+    cout << "Enter pet's name" << endl;
+    cin >> names;
+    store2->found_pet(names);
     store2->output();
     store2->sale();
     store2->output();
-    delete[] pet2;
-    delete store2;
+    
     cout << "\nWorking with an array of dynamic objects" << endl;
     cout << "Enter nunber of pets in shoop" << endl;
     cin >> col;
@@ -283,6 +361,7 @@ int main()
     store3.output();
     store3.sale();
     store3.output();
+    delete store2;
     delete[] pet3;
     return 0;
 }
