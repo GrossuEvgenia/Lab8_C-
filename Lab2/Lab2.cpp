@@ -23,6 +23,12 @@ public:
     }
     pets(char* t, string name, int age, int wheit, double price)
     {
+        
+            if (age < 0 || wheit < 0 || price < 0)
+            {
+                throw 1;
+            }
+        
         type_pets = new char[20];
         strcpy(type_pets, t);
         this->name = name;
@@ -48,6 +54,10 @@ public:
     }
     pets(string name, int age, int wheit, double price)
     {
+        if (age < 0 || wheit < 0 || price < 0)
+        {
+            throw 1;
+        }
         this->name=name;
         this->age = age;
         this->wheit = wheit;
@@ -92,15 +102,60 @@ public:
     }
     void input()
     {
+        
         cout << "Enter pet name: \n";
         cin >> name;
-        cout << "Enter pet age : \n";
-        cin >> age;
-        cout << "Enter pet weit: \n";
-        cin >> wheit;
-        cout << "Enter pet price: \n";
-        cin >> price;
+        //10 lab rab
+        int f = 0;
+        while (f == 0) {
+            cout << "Enter pet age : \n";
+            try {
+                if (cin >> age) f = 1;
+              else throw - 1;
+            }
+            catch (int c)
+            {
+                cout << "NOT DIGIT!!!\n" << "Enter value again" << endl;
+                f = 0;
+                cin.clear();
+                while (cin.get() != '\n');
+            }
+        }
+        f = 0;
+        while (f == 0) {
+            try {
+                cout << "Enter pet weit: \n";
+                if (cin >> wheit) f = 1;
 
+                else  throw - 1;
+            }
+            catch (int c)
+            {
+                cout << "NOT DIGIT!!!\n" << "Enter value again" << endl;
+                f = 0;
+                cin.clear();
+                while (cin.get() != '\n');
+            }
+        }
+        f = 0;
+        while (f == 0)
+        {
+
+            try {
+                cout << "Enter pet price: \n";
+                if (cin >> price)f = 1;
+                else throw - 1;
+
+            }
+            catch (int c)
+            {
+                cout << "NOT DIGIT!!!\n" << "Enter value again" << endl;
+                f = 0;
+                cin.clear();
+                while (cin.get() != '\n');
+            }
+
+        }
     }
 
     void output()
@@ -349,7 +404,13 @@ void check(zooshop sale)
 
 int main()
 {
-
+    try {
+        pets pet10("error", -1, 0, 0);
+    }
+    catch (int k)
+    {
+        cout << "Error, negative value in konstruktor" << endl;
+    }
     int col;
     double sum = 0;
     double taxa = 0;

@@ -1,3 +1,7 @@
 ﻿  Lab2.cpp
-C:\Users\User\Desktop\Lab2\Lab2\Lab2.cpp(159,1): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\Desktop\Lab2\Lab2\Lab2.cpp(116,24): warning C4101: c: неиспользованная локальная переменная
+C:\Users\User\Desktop\Lab2\Lab2\Lab2.cpp(132,24): warning C4101: c: неиспользованная локальная переменная
+C:\Users\User\Desktop\Lab2\Lab2\Lab2.cpp(150,24): warning C4101: c: неиспользованная локальная переменная
+C:\Users\User\Desktop\Lab2\Lab2\Lab2.cpp(214,1): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\Desktop\Lab2\Lab2\Lab2.cpp(410,16): warning C4101: k: неиспользованная локальная переменная
   Lab2.vcxproj -> C:\Users\User\Desktop\Lab2\x64\Debug\Lab2.exe
